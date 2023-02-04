@@ -142,7 +142,6 @@ function replaceMatrices(line, invisibleBinom = true) {
     for (let i = 0; i < line.length; i++) {
         if (i > line.length - 14) break;
         if (line.slice(i, i + 14) === "\\begin{matrix}") {
-            print("Found matrix at " + i)
             let j = i + 14;
             let openCount = 1;
             let matrix = [""];
