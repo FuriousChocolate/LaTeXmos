@@ -1,6 +1,10 @@
 # LaTeXmos
 Converts LaTeX that is normally not in Desmos (such as mutiline expressions, limits, matrices, etc.) into LaTeX that can be pasted into a Desmos expression line.
 
+## Website
+
+[https://furiouschocolate.github.io/LaTeXmos/](https://furiouschocolate.github.io/LaTeXmos/)
+
 ## Usage
 ```node LaTeX_to_Desmos.js [-h] [-s] [-ml] ["LaTeX goes here"]```
 
