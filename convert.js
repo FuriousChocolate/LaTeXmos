@@ -1,12 +1,17 @@
 
 // Converts a latex string into a desmos string.
-function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN) {
+function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
 
     let lines = data.split("\n");
 
-    // Replaces limits and matrices in each line.
+    // If default mode is text mode, wrap each line in text mode.  Otherwise math is on by default.
+    if (DEFAULT_MODE === "text") {
+        lines = lines.map((line) => "\\mathrm{" + line + "}");
+    }
+
+    // Replaces limits and matrices in each line and switches modes properly.
     for (let line in lines) {
-        lines[line] = replaceMatrices(replaceLimits(lines[line]));
+        lines[line] = replaceMatrices(replaceLimits(replaceModes(lines[line], DEFAULT_MODE)));
     }
     
     if (!SINGLE_EXPRESSION_MULTILINE) {
@@ -28,6 +33,8 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN) {
     return "\\textcolor{transparent}{" + groupLines(lines) + "}";
 }
 
+
+
 // Hashes a string into a number.
 function hashCode(str) {
     let hash = 0;
@@ -38,6 +45,7 @@ function hashCode(str) {
     }
     return hash;
 }
+
 // Turns a list of lines into a single line of latex that displays as multiline.
 function groupLines(lines) {
     let newLines = [];
@@ -144,4 +152,38 @@ function replaceMatrices(line, invisibleBinom = true) {
         }
     }
     return line;
+}
+
+function replaceModes(line, DEFAULT_MODE) {
+    let operations = [DEFAULT_MODE];
+    let chunks = [{latex: "", mode: DEFAULT_MODE}];
+    for (let i = 0; i < line.length; i++) {
+        if (line.slice(i, i + 12) === "\\begin{text}") {
+            operations.push("text");
+            i += 12;
+        }
+        if (line.slice(i, i + 10) === "\\end{text}") {
+            operations.pop();
+            i += 10;
+        }
+        if (line.slice(i, i + 12) === "\\begin{math}") {
+            operations.push("math")
+            i += 12;
+        }
+        if (line.slice(i, i + 10) === "\\end{math}") {
+            operations.pop();
+            i += 10;
+        }
+        if (chunks.at(-1).mode !== operations.at(-1)) {
+            chunks.push({latex: "", mode: operations.at(-1)});
+        }
+        if (i >= line.length) break;
+        chunks[chunks.length - 1].latex += line[i];
+    }
+    // replaces all spaces in text mode with "\ ".
+    chunks = chunks.map(x => (x.mode === "text")?{latex: x.latex.replace(/ /g, "\\ "), mode: "text"}:x);
+    return chunks.map(x => (x.mode === DEFAULT_MODE)?x.latex:
+        (DEFAULT_MODE === "math")?"\\mathrm{" + x.latex + "}":
+        "}" + x.latex + "\\mathrm{"
+    ).join("");
 }

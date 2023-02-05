@@ -3,8 +3,9 @@ var calculator = Desmos.GraphingCalculator(elt, {"graphpaper": false, "settingsM
 function run() {
     const ml = document.getElementById("single-expression-multiline").checked;
     const la = document.getElementById("left-align").checked;
+    const mode = "math"
     const input = document.getElementById("input").value;
-    const output = convert(input, ml, la);
+    const output = convert(input, ml, la, mode);
     document.getElementById("output").value = output;
     if (!ml) {
         for (let line of output.split('\n')) {
