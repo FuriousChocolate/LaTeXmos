@@ -5,7 +5,7 @@ function run() {
     const la = document.getElementById("left-align").checked;
     const input = document.getElementById("input").value;
     const output = convert(input, ml, la);
-    document.getElementById("output").innerHTML = output;
+    document.getElementById("output").value = output;
     if (!ml) {
         for (let line of output.split('\n')) {
             calculator.setExpression({id: hashCode(line), latex: line});
