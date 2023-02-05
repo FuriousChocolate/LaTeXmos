@@ -1,4 +1,5 @@
 
+// Converts a latex string into a desmos string.
 function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN) {
 
     let lines = data.split("\n");
@@ -27,6 +28,16 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN) {
     return "\\textcolor{transparent}{" + groupLines(lines) + "}";
 }
 
+// Hashes a string into a number.
+function hashCode(str) {
+    let hash = 0;
+    for (let i = 0, len = str.length; i < len; i++) {
+        let chr = str.charCodeAt(i);
+        hash = (hash << 5) - hash + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+}
 // Turns a list of lines into a single line of latex that displays as multiline.
 function groupLines(lines) {
     let newLines = [];

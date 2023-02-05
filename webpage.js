@@ -1,7 +1,5 @@
-
 var elt = document.getElementById('bernard');
 var calculator = Desmos.GraphingCalculator(elt, {"graphpaper": false, "settingsMenu":false, "expressionsTopbar": true, "keypad": true});
-
 function run() {
     const ml = document.getElementById("single-expression-multiline").checked;
     const la = document.getElementById("left-align").checked;
@@ -10,11 +8,11 @@ function run() {
     document.getElementById("output").innerHTML = output;
     if (!ml) {
         for (let line of output.split('\n')) {
-            calculator.setExpression({id: line, latex: line});
+            calculator.setExpression({id: hashCode(line), latex: line});
         }
     }
     else {
-        calculator.setExpression({id: output, latex: output});
+        calculator.setExpression({id: hashCode(output), latex: output});
     }
     
 }
