@@ -1,7 +1,6 @@
 
 var elt = document.getElementById('bernard');
 var calculator = Desmos.GraphingCalculator(elt, {"graphpaper": false, "settingsMenu":false, "expressionsTopbar": true, "keypad": true});
-calculator.setExpression({ id: 'graph1', latex: 'y=x^2' });
 
 function run() {
     const ml = document.getElementById("single-expression-multiline").checked;
