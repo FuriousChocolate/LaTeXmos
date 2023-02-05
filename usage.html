@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LaTeXmos</title>
+        <style>
+        body {
+        padding: 0;
+        margin: 0;
+        }
+        </style>
+        <link rel="stylesheet" href="styles.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    </head>
+    <body>
+        <!-- navbar -->
+        <div class="container">
+            <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+              <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="index.html" class="nav-link px-2 link-dark">Type anything!</a></li>
+                <li><a href="#" class="nav-link px-2 link-secondary">How to use</a></li>
+                <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+              </ul>
+            </header>
+        </div>
+
+        <div class="p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal">Usage</h1>
+            <p class="fs-5 text-muted info">Use <a href="index.html">LaTeXmos</a> to turn LaTeX that is normally unaccepted by Desmos into LaTeX that can be copy-pasted straight into Desmos. Type your desired LaTeX into the top box, select your options, and then press run! Now you can either copy paste the LaTeX from the bottom box into one of your graphs or copy the expression line from the side that should have appeared.</p>
+            <video width="720px" height="auto" controls>
+                <source src="usage.mov" type="video/mp4">
+            </video>
+            <h3>Limits</h3>
+            <p class="fs-5 text-muted info">LaTeXmos supports limit notation. Simply include in any of your lines "\lim_{a \to b}" in order for a limit to be displayed.</p>
+            <img src="limits.png" alt="limit" width="auto" height="auto">
+            <h3>Matrices</h3>
+            <p class="fs-5 text-muted info">LaTeXmos supports matrices. Type "\begin{matrix} item1 & item2 & item3 ... itemn \\ column2item1 & column2item2 ... \end{matrix}" in one of your lines to crete a matrix. Note that you cannot split matrices across multiple lines, because the parser will interpret that as multiple lines.</p>
+            <img src="matrices.png" alt="matrix" width="auto" height="auto">
+            <h3>Settings</h3>
+            <p class="fs-5 text-muted info">LaTeXmos' settings include <b>single expression multiline</b> which places all of your input lines into a single expression in Desmos. There is also <b>left align</b> which left aligns the expressions (they are center aligned by default) in a single expression multiline. This setting does nothing if single expression multiline is turned off. For inputs with a large number of lines, it is reccomended <em>not</em> to turn on left align, as it can cause a decent amount of lag.</p>
+        </div>
+    </body>
+</html>
