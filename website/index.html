@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaTeXmos</title>
+    <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    </style>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://www.desmos.com/api/v1.7/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+    <script src="convert.js"></script>
+    <script src="webpage.js"></script>
+</head>
+
+<body>
+    <main>
+      <!-- navbar -->
+      <div class="container">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+          <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2 link-secondary">Type anything!</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">Saved docs</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">Desmo</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">Idk what to put here</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+          </ul>
+        </header>
+      </div>
+
+      <div class="parent">
+        <!-- converter -->
+      <div class="converter parent">
+        <div class="down">
+          <div class="MathQuill p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal">LaTeXmos</h1>
+            <p class="fs-5 text-muted">Type math in the box below. </p>
+          </div>
+          <div class="parent">
+            <textarea rows="6" cols="60" id="input">x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} 
+e^{i \theta} = cos(\theta) + i sin(\theta)
+\begin{matrix} 1 & 0 \\ 0 & 1 \end{matrix} \begin{matrix} x \\ y \end{matrix} = \begin{matrix} x \\ y \end{matrix}
+f'(x) = \lim_{h \to 0} \frac{f(x+h)-f(x)}{h}</textarea>
+        </div>
+        <div class="parent button">
+            <div>
+              <button type="button" onclick="run();" class="btn btn-primary">Run</button>
+            </div>
+            <div class="checkbox">
+              <fieldset>
+                <div>
+                  <label for="single-expression-multiline">Single expression multiline</label>
+                  <input type="checkbox" id="single-expression-multiline" name="single-expression-multiline" checked>
+                </div>
+            
+                <div>
+                  <label for="left-align">Left align</label>
+                  <input type="checkbox" id="left-align" name="left-align">
+                </div>
+            </fieldset>
+            </div>
+        </div>   
+        <div class="parent">
+          <textarea rows="6" cols="60" id="output"></textarea>
+        </div>
+        </div>
+        
+        </div>
+  
+        <!-- desmos -->
+        <span class=padded><div id="bernard" style="width: 600px; height: 600px;"></div></span>
+      </div>
+      
+      <script src="webpage.js"></script>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,4 @@
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} 
+e^{i \theta} = cos(\theta) + i sin(\theta)
+\begin{matrix} 1 & 0 \\ 0 & 1 \end{matrix} \begin{matrix} x \\ y \end{matrix} = \begin{matrix} x \\ y \end{matrix}
+f'(x) = \lim_{h \to 0} \frac{f(x+h)-f(x)}{h}
