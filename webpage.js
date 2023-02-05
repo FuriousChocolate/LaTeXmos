@@ -9,5 +9,13 @@ function run() {
     const input = document.getElementById("input").value;
     const output = convert(input, ml, la);
     document.getElementById("output").innerHTML = output;
-    calculator.setExpression({id: output, latex: output})
+    if (!ml) {
+        for (let line of output.split('\n')) {
+            calculator.setExpression({id: line, latex: line});
+        }
+    }
+    else {
+        calculator.setExpression({id: output, latex: output});
+    }
+    
 }
