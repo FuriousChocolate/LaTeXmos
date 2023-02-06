@@ -180,10 +180,38 @@ function replaceModes(line, DEFAULT_MODE) {
         if (i >= line.length) break;
         chunks[chunks.length - 1].latex += line[i];
     }
+    // Zero width space black magic
+    chunks = witchcraft(chunks);
+    
     // replaces all spaces in text mode with "\ ".
     chunks = chunks.map(x => (x.mode === "text")?{latex: x.latex.replace(/ /g, "\\ "), mode: "text"}:x);
+    
     return chunks.map(x => (x.mode === DEFAULT_MODE)?x.latex:
         (DEFAULT_MODE === "math")?"\\mathrm{" + x.latex + "}":
         "}" + x.latex + "\\mathrm{"
     ).join("");
+}
+
+function witchcraft(chunks) {
+    let newChunks = [];
+    for (let chunk of chunks) {
+        if (chunk.mode === "math") {
+            newChunks.push(chunk);
+            continue;
+        }
+        // Breaks the chunks latex into strings of alpanumeric characters and non-alphanumeric characters.
+        let split = chunk.latex.split(/([a-zA-Z0-9]+)/);
+        // For each string of characters, if it is alphanumeric and there isn't a backslash in the previous array element, add a zero width space.
+        for (let i = 0; i < split.length; i++) {
+            if (i > 0 && split[i].match(/[a-zA-Z0-9]/) && !split[i - 1].includes("\\")) {
+                split[i] = split[i].split("").join("\u200B");
+            }
+        }
+        // Joins the array back into a string.
+        chunk.latex = split.join("");
+
+        newChunks.push(chunk);
+    }
+
+    return newChunks;
 }
