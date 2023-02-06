@@ -203,7 +203,8 @@ function witchcraft(chunks) {
         let split = chunk.latex.split(/([a-zA-Z0-9]+)/);
         // For each string of characters, if it is alphanumeric and there isn't a backslash in the previous array element, add a zero width space.
         for (let i = 0; i < split.length; i++) {
-            if (i > 0 && split[i].match(/[a-zA-Z0-9]/) && !split[i - 1].includes("\\")) {
+            if (i > 2) console.log(split[i].match(/[a-zA-Z0-9]/), split[i - 1] === "{", split[i - 2] === "begin", split[i - 3].includes("\\"))
+            if ((i > 0 && split[i].match(/[a-zA-Z0-9]/) && !split[i - 1].includes("\\")) && !(i > 2 && split[i].match(/[a-zA-Z0-9]/) && split[i - 1] === "{" && (split[i - 2] === "begin" || split[i - 2] === "end") && split[i - 3].includes("\\"))) {
                 split[i] = split[i].split("").join("\u200B");
             }
         }

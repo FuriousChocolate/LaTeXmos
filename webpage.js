@@ -20,7 +20,7 @@ var myOutput = CodeMirror(document.getElementById("output"), {
 function run() {
     const ml = document.getElementById("single-expression-multiline").checked;
     const la = document.getElementById("left-align").checked;
-    const mode = "math"
+    const mode = document.getElementById("text-mode").checked? "text" : "math";
     console.log(CodeMirror.value);
     const input = myInput.getValue();
     const output = convert(input, ml, la, mode);
