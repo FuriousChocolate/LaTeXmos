@@ -20,6 +20,7 @@ body {
 }
 .padded {
     padding: 20px;
+    padding-left: 100px;
 }
 .checkbox {
     text-align: right;
@@ -44,4 +45,7 @@ body {
 }
 .color-secondary {
     color: rgb(200, 200, 200) !important;
+}
+.usage-info {
+    text-align: left;
 }
