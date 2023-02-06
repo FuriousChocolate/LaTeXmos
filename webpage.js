@@ -7,13 +7,15 @@ e^{i \\theta} = cos(\\theta) + i sin(\\theta)
 f'(x) = \\lim_{h \\to 0} \\frac{f(x+h)-f(x)}{h}`,
     mode:  "stex",
     lineWrapping: true,
-    lineNumbers: true
+    lineNumbers: true,
+    theme: "monokai"
 });
 var myOutput = CodeMirror(document.getElementById("output"), {
     value: "",
     mode:  "stex",
     lineWrapping: true,
-    lineNumbers: true
+    lineNumbers: true,
+    theme: "monokai"
 });
 function run() {
     const ml = document.getElementById("single-expression-multiline").checked;
