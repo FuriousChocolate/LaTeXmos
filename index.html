@@ -11,6 +11,9 @@
       margin: 0;
     }
     </style>
+    <script src="codemirror/codemirror-5.65.11/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="codemirror/codemirror-5.65.11/lib/codemirror.css">
+    <script src="codemirror/codemirror-5.65.11/mode/stex/stex.js"></script>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://www.desmos.com/api/v1.7/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
@@ -39,11 +42,7 @@
             <h1 class="display-4 fw-normal">LaTeXmos</h1>
             <p class="fs-5 text-muted">Type math in the box below. </p>
           </div>
-          <div class="parent">
-            <textarea rows="6" cols="60" id="input">x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} 
-e^{i \theta} = cos(\theta) + i sin(\theta)
-\begin{matrix} 1 & 0 \\ 0 & 1 \end{matrix} \begin{matrix} x \\ y \end{matrix} = \begin{matrix} x \\ y \end{matrix}
-f'(x) = \lim_{h \to 0} \frac{f(x+h)-f(x)}{h}</textarea>
+          <div class="parent" id="input">
         </div>
         <div class="parent button">
             <div>
@@ -63,8 +62,7 @@ f'(x) = \lim_{h \to 0} \frac{f(x+h)-f(x)}{h}</textarea>
             </fieldset>
             </div>
         </div>   
-        <div class="parent">
-          <textarea rows="6" cols="60" id="output"></textarea>
+        <div class="parent" id="output">
         </div>
         </div>
         

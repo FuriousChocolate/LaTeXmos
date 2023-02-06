@@ -24,3 +24,14 @@
     padding-left: 100px;
     padding-right: 100px;
 }
+.CodeMirror {
+    max-height: 150px;
+    min-width: 100%;
+    border: gray solid 1px;
+}
+#input {
+    width: 513px;
+}
+#output {
+    width: 513px;
+}
