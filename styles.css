@@ -1,3 +1,7 @@
+body {
+    margin: 0;
+    background-color: rgb(60, 60, 60) !important;
+}
 .parent {
     display: flex;
     align-items: center;
@@ -27,11 +31,17 @@
 .CodeMirror {
     max-height: 150px;
     min-width: 100%;
-    border: gray solid 1px;
+    border: rgb(0, 0, 0) solid 1px;
 }
 #input {
     width: 513px;
 }
 #output {
     width: 513px;
+}
+.color-primary {
+    color: rgb(255, 255, 255) !important;
+}
+.color-secondary {
+    color: rgb(200, 200, 200) !important;
 }

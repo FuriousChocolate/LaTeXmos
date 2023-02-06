@@ -23,14 +23,13 @@
 </head>
 
 <body>
-    <main>
       <!-- navbar -->
       <div class="container">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
           <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-secondary">Type anything!</a></li>
-            <li><a href="usage.html" class="nav-link px-2 link-dark">How to use</a></li>
-            <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+            <li><a href="index.html" class="nav-link px-2 color-secondary">Type anything!</a></li>
+            <li><a href="usage.html" class="nav-link px-2 color-primary">How to use</a></li>
+            <li><a href="about.html" class="nav-link px-2 color-primary">About</a></li>
           </ul>
         </header>
       </div>
@@ -40,8 +39,8 @@
       <div class="converter parent">
         <div class="down">
           <div class="p-3 pb-md-4 mx-auto text-center">
-            <h1 class="display-4 fw-normal">LaTeXmos</h1>
-            <p class="fs-5 text-muted">Type math in the box below. </p>
+            <h1 class="display-4 fw-normal color-primary">LaTeXmos</h1>
+            <p class="fs-5 color-secondary">Type math in the box below. </p>
           </div>
           <div class="parent" id="input">
         </div>
@@ -52,12 +51,12 @@
             <div class="checkbox">
               <fieldset>
                 <div>
-                  <label for="single-expression-multiline">Single expression multiline</label>
+                  <label class="color-primary" for="single-expression-multiline">Single expression multiline</label>
                   <input type="checkbox" id="single-expression-multiline" name="single-expression-multiline" checked>
                 </div>
             
                 <div>
-                  <label for="left-align">Left align</label>
+                  <label class="color-primary" for="left-align">Left align</label>
                   <input type="checkbox" id="left-align" name="left-align">
                 </div>
             </fieldset>
@@ -74,7 +73,6 @@
       </div>
       
       <script src="webpage.js"></script>
-    </main>
 </body>
 
 </html>
