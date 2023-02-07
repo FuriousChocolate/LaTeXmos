@@ -4,16 +4,11 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
 
     let lines = data.split("\n");
 
-    // If default mode is text mode, wrap each line in text mode.  Otherwise math is on by default.
-    if (DEFAULT_MODE === "text") {
-        lines = lines.map((line) => "\\mathrm{" + line + "}");
-    }
-
     // Replaces limits and matrices in each line and switches modes properly.
     for (let line in lines) {
+
         lines[line] = replaceMatrices(replaceLimits(replaceModes(lines[line], DEFAULT_MODE)));
     }
-    
     if (!SINGLE_EXPRESSION_MULTILINE) {
         return lines.join("\n");
     }
@@ -24,7 +19,7 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
         for (let i = 0; i < lines.length; i++) {
             for (let j = 0; j < lines.length; j++) {
                 if (j === i) continue;
-                lines[i] += replaceMatrices(replaceLimits(data.split("\n")[j], false), false);
+                lines[i] += replaceMatrices(replaceLimits(replaceModes(data.split("\n")[j], DEFAULT_MODE), false), false);
             }
         }
     }
@@ -155,6 +150,9 @@ function replaceMatrices(line, invisibleBinom = true) {
 }
 
 function replaceModes(line, DEFAULT_MODE) {
+    if (DEFAULT_MODE === "text") {
+        line = "\\mathrm{" + line + "}";
+    }
     let operations = [DEFAULT_MODE];
     let chunks = [{latex: "", mode: DEFAULT_MODE}];
     for (let i = 0; i < line.length; i++) {
@@ -189,7 +187,7 @@ function replaceModes(line, DEFAULT_MODE) {
     return chunks.map(x => (x.mode === DEFAULT_MODE)?x.latex:
         (DEFAULT_MODE === "math")?"\\mathrm{" + x.latex + "}":
         "}" + x.latex + "\\mathrm{"
-    ).join("");
+    ).join("").replace(/\\mathrm{}/g, "");
 }
 
 function witchcraft(chunks) {
@@ -203,7 +201,6 @@ function witchcraft(chunks) {
         let split = chunk.latex.split(/([a-zA-Z0-9]+)/);
         // For each string of characters, if it is alphanumeric and there isn't a backslash in the previous array element, add a zero width space.
         for (let i = 0; i < split.length; i++) {
-            if (i > 2) console.log(split[i].match(/[a-zA-Z0-9]/), split[i - 1] === "{", split[i - 2] === "begin", split[i - 3].includes("\\"))
             if ((i > 0 && split[i].match(/[a-zA-Z0-9]/) && !split[i - 1].includes("\\")) && !(i > 2 && split[i].match(/[a-zA-Z0-9]/) && split[i - 1] === "{" && (split[i - 2] === "begin" || split[i - 2] === "end") && split[i - 3].includes("\\"))) {
                 split[i] = split[i].split("").join("\u200B");
             }
