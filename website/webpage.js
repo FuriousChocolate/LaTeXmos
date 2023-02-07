@@ -8,7 +8,8 @@ f'(x) = \\lim_{h \\to 0} \\frac{f(x+h)-f(x)}{h}`,
     mode:  "stex",
     lineWrapping: true,
     lineNumbers: true,
-    theme: "monokai"
+    theme: "monokai" /*,
+    placeholder: "testing... \n testing2..."*/
 });
 var myOutput = CodeMirror(document.getElementById("output"), {
     value: "",
