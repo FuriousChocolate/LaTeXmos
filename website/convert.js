@@ -1,4 +1,5 @@
 
+const MAX_LINES = 50;
 // Converts a latex string into a desmos string.
 function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
     let lines = data.split("\n");
@@ -17,6 +18,10 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
     }
     if (!SINGLE_EXPRESSION_MULTILINE) {
         return lines.join("\n");
+    }
+
+    if (lines.length > MAX_LINES) {
+        return "\\textcolor{#ff0000}{\\mathrm{ERROR:\\ Too\\ many\\ lines!\\ Max\\ is\\ " + MAX_LINES + "}}";
     }
     // Wraps each line in black.
     lines = lines.map((line) => "\\textcolor{#000}{" + line + "}")

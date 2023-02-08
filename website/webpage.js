@@ -9,7 +9,7 @@ x + \\frac{b}{2a} = \\frac{\\pm \\sqrt{b^2 - 4ac}}{2a}
 x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}`,
 `% This is an example of limit notation. Use "\\lim_{a \\to b}" to display limits.
 f'(x) = \\lim_{h \\to 0} \\frac{f(x + h) - f(x)}{h}`,
-`% This is an example of matrix notation. Use "\\begin{matrix} ... \\end{matrix}" to start and end matrices, & to signify the next column, and \\\\ to signify the next row.
+`% This is an example of matrix notation. Use "\\begin{matrix} ... \\end{matrix}" to start and end matrices, "&" to signify the next column, and "\\\\" to signify the next row.
 \\begin{matrix} 1 & 0 & 0 & 0 \\\\ 0 & 1 & 0 & 0 \\\\ 0 & 0 & 1 & 0 \\\\ 0 & 0 & 0 & 1 \\end{matrix} \\begin{matrix} x \\\\ y \\\\ z \\\\ w \\end{matrix} = \\begin{matrix} x \\\\ y \\\\ z \\\\ w \\end{matrix}`,
 `% This is an example of comments in LaTeXmos. Adding "%" to a line causes everything that comes after it to have no effect on the output.
 % As you can see, there are multiple lines of comments here, but the only text that will be displayed is the equation at the bottom.
@@ -45,7 +45,7 @@ var myOutput = CodeMirror(document.getElementById("output"), {
     lineWrapping: true,
     lineNumbers: true,
     theme: "monokai",
-    placeholder: "Output will appear here..."
+    placeholder: "Output will appear here. You can copy and paste from here straight into desmos."
 });
 function run() {
     const ml = document.getElementById("single-expression-multiline").checked;
