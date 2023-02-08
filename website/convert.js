@@ -1,12 +1,18 @@
 
 // Converts a latex string into a desmos string.
 function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
-
     let lines = data.split("\n");
+
+    // Removes comments.
+    lines = lines.map((line) => (line.split("%")[0]));
+    // Removes empty lines.
+    lines = lines.filter((line) => line !== "");
+
+    // Stores the old lines for later in a new copy.
+    const old_lines = lines.slice();
 
     // Replaces limits and matrices in each line and switches modes properly.
     for (let line in lines) {
-
         lines[line] = replaceMatrices(replaceLimits(replaceModes(lines[line], DEFAULT_MODE)));
     }
     if (!SINGLE_EXPRESSION_MULTILINE) {
@@ -19,7 +25,7 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
         for (let i = 0; i < lines.length; i++) {
             for (let j = 0; j < lines.length; j++) {
                 if (j === i) continue;
-                lines[i] += replaceMatrices(replaceLimits(replaceModes(data.split("\n")[j], DEFAULT_MODE), false), false);
+                lines[i] += replaceMatrices(replaceLimits(replaceModes(old_lines[j], DEFAULT_MODE), false), false);
             }
         }
     }
