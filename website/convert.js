@@ -14,7 +14,17 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
 
     // Replaces limits and matrices in each line and switches modes properly.
     for (let line in lines) {
-        lines[line] = replaceMatrices(replaceLimits(replaceModes(lines[line], DEFAULT_MODE)));
+        lines[line] = 
+        replaceDoubleIntegrals(
+            replaceMatrices(
+                replaceLimits(
+                    replaceModes(
+                        lines[line], DEFAULT_MODE
+                    )
+                )
+            )
+        );
+        
     }
     if (!SINGLE_EXPRESSION_MULTILINE) {
         return lines.join("\n");
@@ -30,7 +40,17 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
         for (let i = 0; i < lines.length; i++) {
             for (let j = 0; j < lines.length; j++) {
                 if (j === i) continue;
-                lines[i] += replaceMatrices(replaceLimits(replaceModes(old_lines[j], DEFAULT_MODE), false), false);
+                lines[i] += 
+                replaceDoubleIntegrals(
+                    replaceMatrices(
+                        replaceLimits(
+                            replaceModes(
+                                old_lines[j], DEFAULT_MODE
+                            )
+                        , false)
+                    , false)
+                )
+                
             }
         }
     }
@@ -223,4 +243,16 @@ function witchcraft(chunks) {
     }
 
     return newChunks;
+}
+
+function replaceDoubleIntegrals(line) {
+    for (let i = 0; i < line.length; i++) {
+        console.log(line.slice(i,i+5))
+        if (line.slice(i,i+5) === "\\iint") {
+            const firstHalf = line.slice(0, i - 1);
+            const secondHalf = line.slice(i+5);
+            line = firstHalf + "\\int_{​}^{​} \\int" + secondHalf;
+        }
+    }
+    return line;
 }

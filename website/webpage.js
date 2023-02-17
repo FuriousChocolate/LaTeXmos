@@ -47,6 +47,8 @@ var myOutput = CodeMirror(document.getElementById("output"), {
     theme: "monokai",
     placeholder: "Output will appear here. You can copy and paste from here straight into desmos."
 });
+
+
 function run() {
     const ml = document.getElementById("single-expression-multiline").checked;
     const la = document.getElementById("left-align").checked;
