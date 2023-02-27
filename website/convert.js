@@ -186,6 +186,43 @@ function replaceModes(line, DEFAULT_MODE) {
     }
     let operations = [DEFAULT_MODE];
     let chunks = [{latex: "", mode: DEFAULT_MODE}];
+
+    // Replaces \math{ and } with \begin{math} and \end{math} and \text{ and } with \begin{text} and \end{text}
+    // for (let i = 0; i < line.length; i++) {
+    //     if(line.slice(i, i + 6) === "\\math{") {
+    //         line = line.slice(0, i) + "\\begin{math}" + line.slice(i + 6);
+    //     }
+    //     let j = i + 1;
+    //     let openCount = 1;
+    //     while (true) {
+    //         if (line[j] === undefined) break;
+    //         if (line[j] === "{") openCount++;
+    //         if (line[j] === "}") openCount--;
+    //         if (openCount === 0) {
+    //             line = line.slice(0, j) + "\\end{math}" + line.slice(j + 1);
+    //             break;
+    //         }
+    //         j++;
+    //     }
+    //     if (line.slice(i, i + 6) === "\\text{") {
+    //         line = line.slice(0, i) + "\\begin{text}" + line.slice(i + 6);
+    //     }
+    //     j = i + 1;
+    //     console.log(line[j])
+    //     openCount = 1;
+    //     while (true) {
+    //         if (line[j] === undefined) break;
+    //         if (line[j] === "{") openCount++;
+    //         if (line[j] === "}") openCount--;
+    //         if (openCount === 0) {
+    //             line = line.slice(0, j) + "\\end{text}" + line.slice(j + 1);
+    //             break;
+    //         }
+    //         j++;
+    //         console.log('...')
+    //     }
+    // }
+
     for (let i = 0; i < line.length; i++) {
         if (line.slice(i, i + 12) === "\\begin{text}") {
             operations.push("text");
