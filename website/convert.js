@@ -30,7 +30,7 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
         );
         
     }
-    if (!SINGLE_EXPRESSION_MULTILINE) {
+    if (!SINGLE_EXPRESSION_MULTILINE || lines.length === 1) {
         return lines.join("\n");
     }
 
@@ -227,68 +227,38 @@ function replaceModes(line, DEFAULT_MODE) {
     if (DEFAULT_MODE === "text") {
         line = "\\mathrm{" + line + "}";
     }
-    let operations = [DEFAULT_MODE];
+
     let chunks = [{latex: "", mode: DEFAULT_MODE}];
-
-    // Replaces \math{ and } with \begin{math} and \end{math} and \text{ and } with \begin{text} and \end{text}
-    // for (let i = 0; i < line.length; i++) {
-    //     if(line.slice(i, i + 6) === "\\math{") {
-    //         line = line.slice(0, i) + "\\begin{math}" + line.slice(i + 6);
-    //     }
-    //     let j = i + 1;
-    //     let openCount = 1;
-    //     while (true) {
-    //         if (line[j] === undefined) break;
-    //         if (line[j] === "{") openCount++;
-    //         if (line[j] === "}") openCount--;
-    //         if (openCount === 0) {
-    //             line = line.slice(0, j) + "\\end{math}" + line.slice(j + 1);
-    //             break;
-    //         }
-    //         j++;
-    //     }
-    //     if (line.slice(i, i + 6) === "\\text{") {
-    //         line = line.slice(0, i) + "\\begin{text}" + line.slice(i + 6);
-    //     }
-    //     j = i + 1;
-    //     console.log(line[j])
-    //     openCount = 1;
-    //     while (true) {
-    //         if (line[j] === undefined) break;
-    //         if (line[j] === "{") openCount++;
-    //         if (line[j] === "}") openCount--;
-    //         if (openCount === 0) {
-    //             line = line.slice(0, j) + "\\end{text}" + line.slice(j + 1);
-    //             break;
-    //         }
-    //         j++;
-    //         console.log('...')
-    //     }
-    // }
-
+    let queue = []
     for (let i = 0; i < line.length; i++) {
-        if (line.slice(i, i + 12) === "\\begin{text}") {
-            operations.push("text");
-            i += 12;
+        if (line[i] === "$") {
+          chunks.push({latex: "", mode: chunks.at(-1).mode==="text"?"math":"text"})
         }
-        if (line.slice(i, i + 10) === "\\end{text}") {
-            operations.pop();
-            i += 10;
+        else if (line.slice(i, i + 6) === "\\text{") {
+          queue.push(0);
+          queue = queue.map(x => x + 1);
+          chunks.push({latex: "", mode: "text"})
+          i += 5;
         }
-        if (line.slice(i, i + 12) === "\\begin{math}") {
-            operations.push("math")
-            i += 12;
+        else if (line[i] === "{") {
+          queue = queue.map(x => x + 1);
+          chunks.at(-1).latex += line[i];
         }
-        if (line.slice(i, i + 10) === "\\end{math}") {
-            operations.pop();
-            i += 10;
+        else if (line[i] === "}") {
+          queue = queue.map(x => x - 1);
+          if (queue.sort((a, b) => a - b)[0] === 0) {
+            chunks.push({latex: "", mode: "math"})
+            queue = queue.filter(x => x !== 0);
+          }
+          else {
+             chunks.at(-1).latex += line[i];
+          }
         }
-        if (chunks.at(-1).mode !== operations.at(-1)) {
-            chunks.push({latex: "", mode: operations.at(-1)});
+        else {
+          chunks.at(-1).latex += line[i];
         }
-        if (i >= line.length) break;
-        chunks[chunks.length - 1].latex += line[i];
     }
+    console.log(chunks);
     // Zero width space black magic
     chunks = witchcraft(chunks);
     
@@ -301,6 +271,7 @@ function replaceModes(line, DEFAULT_MODE) {
     ).join("").replace(/\\mathrm{}/g, "");
 }
 
+// Fixes words like modular from turning into mod ular in desmos by adding zero width spaces in text mode.
 function witchcraft(chunks) {
     let newChunks = [];
     for (let chunk of chunks) {
