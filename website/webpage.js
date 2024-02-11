@@ -1,25 +1,28 @@
-// Calculator setup.
-var elt = document.getElementById('bernard');
-var calculator = Desmos.GraphingCalculator(elt, {"graphpaper": false, "settingsMenu":false, "expressionsTopbar": true, "keypad": true});
+window.onload = setup;
+var calculator, myInput, myOutput;
+function setup() {
+    // Calculator setup.
+    var elt = document.getElementById('bernard');
+    calculator = Desmos.GraphingCalculator(elt, {"graphpaper": false, "settingsMenu":false, "expressionsTopbar": true, "keypad": true});
 
-// CodeMirror setup.
-var myInput = CodeMirror(document.getElementById("input"), {
-    value: randomExample(),
-    mode:  "stex",
-    lineWrapping: true,
-    lineNumbers: true,
-    theme: "monokai",
-    placeholder: "Type LaTeX here..."
-});
-var myOutput = CodeMirror(document.getElementById("output"), {
-    value: "",
-    mode:  "stex",
-    lineWrapping: true,
-    lineNumbers: true,
-    theme: "monokai",
-    placeholder: "Output will appear here. You can copy and paste from here straight into desmos."
-});
-
+    // CodeMirror setup.
+    myInput = CodeMirror(document.getElementById("input"), {
+        value: randomExample(),
+        mode:  "stex",
+        lineWrapping: true,
+        lineNumbers: true,
+        theme: "monokai",
+        placeholder: "Type LaTeX here..."
+    });
+    myOutput = CodeMirror(document.getElementById("output"), {
+        value: "",
+        mode:  "stex",
+        lineWrapping: true,
+        lineNumbers: true,
+        theme: "monokai",
+        placeholder: "Output will appear here. You can copy and paste from here straight into desmos."
+    });
+}
 
 function run() {
     const ml = document.getElementById("single-expression-multiline").checked;

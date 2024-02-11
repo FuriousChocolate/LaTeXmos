@@ -18,8 +18,10 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
         replaceDoubleIntegrals(
             replaceMatrices(
                 replaceLimits(
-                    replaceModes(
-                        lines[line], DEFAULT_MODE
+                    replaceParentheses(
+                        replaceModes(
+                            lines[line], DEFAULT_MODE
+                        )
                     )
                 )
             )
@@ -37,6 +39,16 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
     lines = lines.map((line) => "\\textcolor{#000}{" + line + "}")
 
     if (LEFT_ALIGN) {
+        // Adds an invisible copy of every line to every other line. For example, if the lines were
+        //   a
+        //  bbb
+        //   cc
+        // To make it left aligned, it would become
+        //  abbbcc
+        //  bbbacc
+        //  ccabbb
+        // Where everything after the first characters are invisible.
+        // This is very inefficient and I should probably change it.x
         for (let i = 0; i < lines.length; i++) {
             for (let j = 0; j < lines.length; j++) {
                 if (j === i) continue;
@@ -44,8 +56,10 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
                 replaceDoubleIntegrals(
                     replaceMatrices(
                         replaceLimits(
-                            replaceModes(
-                                old_lines[j], DEFAULT_MODE
+                            replaceParentheses(
+                                replaceModes(
+                                    old_lines[j], DEFAULT_MODE
+                                )
                             )
                         , false)
                     , false)
@@ -180,6 +194,32 @@ function replaceMatrices(line, invisibleBinom = true) {
     return line;
 }
 
+// Replaces all the \( and \) in a line with \left( and \right). Also replaces all the \[ and \] in a line with \left[ and \right] and all the \{ and \} in a line with \left\{ and \right\}.
+function replaceParentheses(line) {
+    // Makes sure only to replace things like \( if they are not already preceeded by \left or \right.
+    for (let i = 0; i < line.length; i++) {
+        if (line.slice(i, i + 2) === "\\(" && line.slice(i - 5, i) !== "\\left") {
+            line = line.slice(0, i) + "\\left(" + line.slice(i + 2);
+        }
+        if (line.slice(i, i + 2) === "\\)" && line.slice(i - 6, i) !== "\\right") {
+            line = line.slice(0, i) + "\\right)" + line.slice(i + 2);
+        }
+        if (line.slice(i, i + 2) === "\\[" && line.slice(i - 5, i) !== "\\left") {
+            line = line.slice(0, i) + "\\left[" + line.slice(i + 2);
+        }
+        if (line.slice(i, i + 2) === "\\]" && line.slice(i - 6, i) !== "\\right") {
+            line = line.slice(0, i) + "\\right]" + line.slice(i + 2);
+        }
+        if (line.slice(i, i + 2) === "\\{" && line.slice(i - 5, i) !== "\\left") {
+            line = line.slice(0, i) + "\\left\\{" + line.slice(i + 2);
+        }
+        if (line.slice(i, i + 2) === "\\}" && line.slice(i - 6, i) !== "\\right") {
+            line = line.slice(0, i) + "\\right\\}" + line.slice(i + 2);
+        }
+    }
+    return line;
+}
+
 function replaceModes(line, DEFAULT_MODE) {
     if (DEFAULT_MODE === "text") {
         line = "\\mathrm{" + line + "}";
@@ -284,7 +324,7 @@ function witchcraft(chunks) {
 
 function replaceDoubleIntegrals(line) {
     for (let i = 0; i < line.length; i++) {
-        console.log(line.slice(i,i+5))
+        // console.log(line.slice(i,i+5))
         if (line.slice(i,i+5) === "\\iint") {
             const firstHalf = line.slice(0, i - 1);
             const secondHalf = line.slice(i+5);
