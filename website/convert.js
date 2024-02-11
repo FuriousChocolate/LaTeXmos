@@ -15,12 +15,14 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
     // Replaces limits and matrices in each line and switches modes properly.
     for (let line in lines) {
         lines[line] = 
-        replaceDoubleIntegrals(
-            replaceMatrices(
-                replaceLimits(
-                    replaceParentheses(
-                        replaceModes(
-                            lines[line], DEFAULT_MODE
+        fillEmptySpacesInSingleIntegrals(
+            replaceDoubleIntegrals(
+                replaceMatrices(
+                    replaceLimits(
+                        replaceParentheses(
+                            replaceModes(
+                                lines[line], DEFAULT_MODE
+                            )
                         )
                     )
                 )
@@ -53,18 +55,19 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
             for (let j = 0; j < lines.length; j++) {
                 if (j === i) continue;
                 lines[i] += 
-                replaceDoubleIntegrals(
-                    replaceMatrices(
-                        replaceLimits(
-                            replaceParentheses(
-                                replaceModes(
-                                    old_lines[j], DEFAULT_MODE
+                fillEmptySpacesInSingleIntegrals(
+                    replaceDoubleIntegrals(
+                        replaceMatrices(
+                            replaceLimits(
+                                replaceParentheses(
+                                    replaceModes(
+                                        old_lines[j], DEFAULT_MODE
+                                    )
                                 )
-                            )
+                            , false)
                         , false)
-                    , false)
+                    )
                 )
-                
             }
         }
     }
@@ -321,14 +324,26 @@ function witchcraft(chunks) {
 
     return newChunks;
 }
-
+function fillEmptySpacesInSingleIntegrals(line) {
+    for (let i = 0; i < line.length; i++) {
+        if (line.slice(i,i+4) === "\\int") {
+            const firstHalf = line.slice(0, i);
+            const secondHalf = line.slice(i+4);
+            line = firstHalf + "\\int";
+            if (secondHalf[0] !== "_") line += "_{\u200B}^{\u200B}";
+            line += secondHalf;
+        }
+    }
+    return line;
+}
 function replaceDoubleIntegrals(line) {
     for (let i = 0; i < line.length; i++) {
-        // console.log(line.slice(i,i+5))
         if (line.slice(i,i+5) === "\\iint") {
-            const firstHalf = line.slice(0, i - 1);
+            const firstHalf = line.slice(0, i);
             const secondHalf = line.slice(i+5);
-            line = firstHalf + "\\int_{​}^{​} \\int" + secondHalf;
+            line = firstHalf + "\\int_{\u200B}^{\u200B} \\int";
+            if (secondHalf[0] !== "_") line += "_{\u200B}^{\u200B}";
+            line += secondHalf;
         }
     }
     return line;
