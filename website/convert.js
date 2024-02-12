@@ -114,6 +114,7 @@ function groupLines(lines) {
     }
 }
 
+// In latex, space markers such as '\,'  '\:' and '\;' are used. Desmos doesn't support these, so this function replaces them with '\ '.
 function replaceAlternativeSpacing(line) {
     line = line.replace(/\\,/g, "\\ ");
     line = line.replace(/\\:/g, "\\ ");
@@ -233,6 +234,7 @@ function replaceParentheses(line) {
     return line;
 }
 
+// Converts the lines into the correct mode (text or math).
 function replaceModes(line, DEFAULT_MODE) {
     if (DEFAULT_MODE === "text") {
         line = "\\mathrm{" + line + "}";
@@ -304,6 +306,8 @@ function witchcraft(chunks) {
 
     return newChunks;
 }
+
+// Adds zero width spaces to empty integrals so they don't appear as input boxes in desmos.
 function fillEmptySpacesInSingleIntegrals(line) {
     for (let i = 0; i < line.length; i++) {
         if (line.slice(i,i+4) === "\\int") {
