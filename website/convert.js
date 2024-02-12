@@ -329,7 +329,7 @@ function replaceMultiIntegrals(line) {
             const multiInts = (triple)?"\\int_{\u200B}^{\u200B} \\int_{\u200B}^{\u200B}":"\\int_{\u200B}^{\u200B}";
             if (secondHalf[0] !== "_") {
                 line = firstHalf + "\\mathrm{" + multiInts + " \\int_{\u200B}^{\u200B}}" + secondHalf;
-                return;
+                return line;
             } 
             else {
                 // Finds the bounds in the second half. Bounds look like _{first}^{second}
