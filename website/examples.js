@@ -34,8 +34,8 @@ const examples = [
 {
     latex: `% This is an example of switching between text and math mode. This example is meant to be run in the default math mode.\n\\text{ This is an example of text mode. }\n\\text{Inside text mode, you can also do $ 1 + \\frac{1}{2} $ to create inline math,} \n\\text{and vice versa. }`,
     settings: {
-        ml: false,
-        la: false,
+        ml: true,
+        la: true,
         mode: "math"
     }
 },
