@@ -20,8 +20,10 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
                 replaceMatrices(
                     replaceLimits(
                         replaceParentheses(
-                            replaceModes(
-                                lines[line], DEFAULT_MODE
+                            replaceAlternativeSpacing(
+                                replaceModes(
+                                    lines[line], DEFAULT_MODE
+                                )
                             )
                         )
                     )
@@ -60,8 +62,10 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
                         replaceMatrices(
                             replaceLimits(
                                 replaceParentheses(
-                                    replaceModes(
-                                        old_lines[j], DEFAULT_MODE
+                                    replaceAlternativeSpacing(
+                                        replaceModes(
+                                            old_lines[j], DEFAULT_MODE
+                                        )
                                     )
                                 )
                             , false)
@@ -110,6 +114,12 @@ function groupLines(lines) {
     }
 }
 
+function replaceAlternativeSpacing(line) {
+    line = line.replace(/\\,/g, "\\ ");
+    line = line.replace(/\\:/g, "\\ ");
+    line = line.replace(/\\;/g, "\\ ");
+    return line;
+}
 // Replaces all the \lim_{a \to b} in a line with my verson of a desmos displayable limit.
 function replaceLimits(line, invisibleBinom = true) {
     for (let i = 0; i < line.length; i++) {
