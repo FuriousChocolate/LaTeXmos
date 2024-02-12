@@ -22,6 +22,8 @@ function setup() {
         theme: "monokai",
         placeholder: "Output will appear here. You can copy and paste from here straight into desmos."
     });
+    // For some reason this needs to be here???? I don't know why.
+    document.getElementById("left-align").checked
 }
 
 function run() {

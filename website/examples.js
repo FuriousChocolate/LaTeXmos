@@ -32,7 +32,7 @@ const examples = [
     }
 },
 {
-    latex: `% This is an example of switching between text and math mode. This example is meant to be run in the default math mode.\n\\begin{text} This is an example of text mode. \\end{text}\n\\begin{text}Inside text mode, you can also do \\begin{math} 1 + \\frac{1}{2} \\end{math} to create inline math,\\end{text} \n\\begin{text}and vice versa. \\end{text}`,
+    latex: `% This is an example of switching between text and math mode. This example is meant to be run in the default math mode.\n\\text{ This is an example of text mode. }\n\\text{Inside text mode, you can also do $ 1 + \\frac{1}{2} $ to create inline math,} \n\\text{and vice versa. }`,
     settings: {
         ml: false,
         la: false,
@@ -40,7 +40,7 @@ const examples = [
     }
 },
 {
-    latex: `% This is an example of switching between text and math mode. This example is meant to be run with the text mode checkbox checked.\nStuff you type here will automatically be in text mode.\nIf you want to do math, you have to specify like so: \\begin{math} \\sqrt{2} \\end{math}.\nInside math mode, you can also do \n\\backslash\\backslash begin\\left\\{text\\right\\} and \n\\backslash\\backslash end\\left\\{text\\right\\} to \ncreate inline text, and vice versa.`,
+    latex: `% This is an example of switching between text and math mode. This example is meant to be run with the text mode checkbox checked.\nStuff you type here will automatically be in text mode.\nIf you want to do math, you have to specify like so: $ \\sqrt{2} $.`,
     settings: {
         ml: true,
         la: true,
