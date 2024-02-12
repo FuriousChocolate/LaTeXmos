@@ -16,7 +16,7 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
     for (let line in lines) {
         lines[line] = 
         fillEmptySpacesInSingleIntegrals(
-            replaceDoubleIntegrals(
+            replaceMultiIntegrals(
                 replaceMatrices(
                     replaceLimits(
                         replaceParentheses(
@@ -56,7 +56,7 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
                 if (j === i) continue;
                 lines[i] += 
                 fillEmptySpacesInSingleIntegrals(
-                    replaceDoubleIntegrals(
+                    replaceMultiIntegrals(
                         replaceMatrices(
                             replaceLimits(
                                 replaceParentheses(
@@ -258,7 +258,6 @@ function replaceModes(line, DEFAULT_MODE) {
           chunks.at(-1).latex += line[i];
         }
     }
-    console.log(chunks);
     // Zero width space black magic
     chunks = witchcraft(chunks);
     
@@ -307,14 +306,52 @@ function fillEmptySpacesInSingleIntegrals(line) {
     }
     return line;
 }
-function replaceDoubleIntegrals(line) {
+
+// for now, multi integrals only work if the bounds are in brackets.
+// E.g: \iint_{a}^{b} is allowed but \iint_a^b is not.
+function replaceMultiIntegrals(line) {
     for (let i = 0; i < line.length; i++) {
-        if (line.slice(i,i+5) === "\\iint") {
+        const double = line.slice(i, i+5) === "\\iint";
+        const triple = line.slice(i, i+6) === "\\iiint";
+        if (double || triple) {
             const firstHalf = line.slice(0, i);
-            const secondHalf = line.slice(i+5);
-            line = firstHalf + "\\int_{\u200B}^{\u200B} \\int";
-            if (secondHalf[0] !== "_") line += "_{\u200B}^{\u200B}";
-            line += secondHalf;
+            const secondHalf = line.slice((triple)?i+6:i+5);
+            const multiInts = (triple)?"\\int_{\u200B}^{\u200B} \\int_{\u200B}^{\u200B}":"\\int_{\u200B}^{\u200B}";
+            if (secondHalf[0] !== "_") {
+                line = firstHalf + "\\mathrm{" + multiInts + " \\int_{\u200B}^{\u200B}}" + secondHalf;
+                console.log(line);
+                return;
+            } 
+            else {
+                // Finds the bounds in the second half. Bounds look like _{first}^{second}
+                let j = 2;
+                let openCount = 1;
+                let firstBound = "";
+                let secondBound = "";
+                while (true) {
+                    console.log(openCount, j)
+                    if (secondHalf[j] === undefined) break;
+                    if (secondHalf[j] === "{") openCount++;
+                    if (secondHalf[j] === "}") openCount--;
+                    if (openCount === 0) break;
+                    firstBound += secondHalf[j];
+                    j++;
+                }
+                while(secondHalf[j - 1] !== "^" && j < secondHalf.length) j++;
+                j++;
+                openCount = 1;
+                while (true) {
+                    console.log(openCount, j)
+                    if (secondHalf[j] === undefined) break;
+                    if (secondHalf[j] === "{") openCount++;
+                    if (secondHalf[j] === "}") openCount--;
+                    if (openCount === 0) break;
+                    secondBound += secondHalf[j];
+                    j++;
+                }
+                console.log(firstBound, secondBound);
+                line = firstHalf + "\\mathrm{" + multiInts + " \\int_{\\mathit{" + firstBound + "}}^{\\mathit{" + secondBound + "}}" + secondHalf.slice(j);
+            }
         }
     }
     return line;
