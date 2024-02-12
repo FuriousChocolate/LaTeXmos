@@ -319,7 +319,6 @@ function replaceMultiIntegrals(line) {
             const multiInts = (triple)?"\\int_{\u200B}^{\u200B} \\int_{\u200B}^{\u200B}":"\\int_{\u200B}^{\u200B}";
             if (secondHalf[0] !== "_") {
                 line = firstHalf + "\\mathrm{" + multiInts + " \\int_{\u200B}^{\u200B}}" + secondHalf;
-                console.log(line);
                 return;
             } 
             else {
@@ -329,7 +328,6 @@ function replaceMultiIntegrals(line) {
                 let firstBound = "";
                 let secondBound = "";
                 while (true) {
-                    console.log(openCount, j)
                     if (secondHalf[j] === undefined) break;
                     if (secondHalf[j] === "{") openCount++;
                     if (secondHalf[j] === "}") openCount--;
@@ -337,20 +335,24 @@ function replaceMultiIntegrals(line) {
                     firstBound += secondHalf[j];
                     j++;
                 }
-                while(secondHalf[j - 1] !== "^" && j < secondHalf.length) j++;
-                j++;
-                openCount = 1;
-                while (true) {
-                    console.log(openCount, j)
-                    if (secondHalf[j] === undefined) break;
-                    if (secondHalf[j] === "{") openCount++;
-                    if (secondHalf[j] === "}") openCount--;
-                    if (openCount === 0) break;
-                    secondBound += secondHalf[j];
+                if (secondHalf.includes("^") === false) secondBound = "\u200B";
+                else {
+                    while(secondHalf[j - 1] !== "^" && j < secondHalf.length) j++;
                     j++;
+                    openCount = 1;
+                    while (true) {
+                        if (secondHalf[j] === undefined) break;
+                        if (secondHalf[j] === "{") openCount++;
+                        if (secondHalf[j] === "}") openCount--;
+                        if (openCount === 0) break;
+                        secondBound += secondHalf[j];
+                        j++;
+                    }
                 }
-                console.log(firstBound, secondBound);
-                line = firstHalf + "\\mathrm{" + multiInts + " \\int_{\\mathit{" + firstBound + "}}^{\\mathit{" + secondBound + "}}" + secondHalf.slice(j);
+                console.log(secondHalf)
+                console.log(secondHalf.slice(j));
+                if (secondBound.replace(/ /g, '') === "") secondBound = "\u200B";
+                line = firstHalf + "\\mathrm{" + multiInts + " \\int_{\\mathit{" + firstBound + "}}^{\\mathit{" + secondBound + "}}}" + secondHalf.slice(j + 1);
             }
         }
     }
