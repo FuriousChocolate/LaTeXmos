@@ -333,7 +333,6 @@ function replaceMultiIntegrals(line) {
             const multiInts = (triple)?"\\int_{\u200B}^{\u200B} \\int_{\u200B}^{\u200B}":"\\int_{\u200B}^{\u200B}";
             if (secondHalf[0] !== "_") {
                 line = firstHalf + "\\mathrm{" + multiInts + " \\int_{\u200B}^{\u200B}}" + secondHalf;
-                return line;
             } 
             else {
                 // Finds the bounds in the second half. Bounds look like _{first}^{second}
@@ -363,9 +362,8 @@ function replaceMultiIntegrals(line) {
                         j++;
                     }
                 }
-                console.log(secondHalf)
-                console.log(secondHalf.slice(j));
                 if (secondBound.replace(/ /g, '') === "") secondBound = "\u200B";
+                console.log(firstBound, secondBound);
                 line = firstHalf + "\\mathrm{" + multiInts + " \\int_{\\mathit{" + firstBound + "}}^{\\mathit{" + secondBound + "}}}" + secondHalf.slice(j + 1);
             }
         }
