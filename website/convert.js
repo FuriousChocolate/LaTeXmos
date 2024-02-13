@@ -19,13 +19,16 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
             replaceMultiIntegrals(
                 replaceMatrices(
                     replaceLimits(
-                        replaceParentheses(
-                            replaceAlternativeSpacing(
-                                replaceModes(
-                                    lines[line], DEFAULT_MODE
+                        replaceMathbb(
+                            replaceParentheses(
+                                replaceAlternativeSpacing(
+                                    replaceModes(
+                                        lines[line], DEFAULT_MODE
+                                    )
                                 )
                             )
                         )
+                        
                     )
                 )
             )
@@ -61,10 +64,12 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
                     replaceMultiIntegrals(
                         replaceMatrices(
                             replaceLimits(
-                                replaceParentheses(
-                                    replaceAlternativeSpacing(
-                                        replaceModes(
-                                            old_lines[j], DEFAULT_MODE
+                                replaceMathbb(
+                                    replaceParentheses(
+                                        replaceAlternativeSpacing(
+                                            replaceModes(
+                                                old_lines[j], DEFAULT_MODE
+                                            )
                                         )
                                     )
                                 )
@@ -234,6 +239,16 @@ function replaceParentheses(line) {
     return line;
 }
 
+// Replaces \mathbb with \mathbf.
+function replaceMathbb(line) {
+    for (let i = 0; i < line.length; i++) {
+        if (line.slice(i, i + 7) === "\\mathbb") {
+            line = line.slice(0, i) + "\\mathbf" + line.slice(i + 7);
+        }
+    }
+    return line;
+}
+
 // Converts the lines into the correct mode (text or math).
 function replaceModes(line, DEFAULT_MODE) {
     if (DEFAULT_MODE === "text") {
@@ -363,7 +378,6 @@ function replaceMultiIntegrals(line) {
                     }
                 }
                 if (secondBound.replace(/ /g, '') === "") secondBound = "\u200B";
-                console.log(firstBound, secondBound);
                 line = firstHalf + "\\mathrm{" + multiInts + " \\int_{\\mathit{" + firstBound + "}}^{\\mathit{" + secondBound + "}}}" + secondHalf.slice(j + 1);
             }
         }
