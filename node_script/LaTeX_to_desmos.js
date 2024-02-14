@@ -1,5 +1,14 @@
 // Welcome to LaTeXmos! FuriousChocolate - 2023.
 
+/*
+*
+* WARNING: This file is currently (Feb 2024) outdated. Please use the latest version found in convert.js.
+*
+*
+*
+*
+*
+*/
 // If you want your lines to be in separate expressions, use the -ml flag.
 let SINGLE_EXPRESSION_MULTILINE = true;
 // If you would like to use a string as an input, use the -s flag.
