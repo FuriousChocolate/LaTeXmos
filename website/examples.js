@@ -1,6 +1,6 @@
 const examples = [
 {
-    latex: `% This is an example of a multiline display. Please check the multiline box and optionally the left-align box to see it in action.\nax^2 + bx + c = 0\nx^2 + \\frac{b}{a} + \\frac{c}{a} = 0\nx^2 + \\frac{b}{a}x = -\\frac{c}{a}\nx^2 + 2\\frac{b}{2a}x + \\left(\\frac{b}{2a}\\right)^2 = \\left(\\frac{b}{2a}\\right)^2 - \\frac{c}{a}\n\\left(x + \\frac{b}{2a}\\right)^2 = \\frac{b^2}{4a^2} - \\frac{4ac}{4a^2}\nx + \\frac{b}{2a} = \\frac{\\pm \\sqrt{b^2 - 4ac}}{2a}\nx = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}`,
+    latex: `% This is an example of a multiline display. Please check the multiline box and optionally the left-align box to see it in action.\nax^2 + bx + c = 0\nx^2 + \\frac{b}{a} + \\frac{c}{a} = 0\nx^2 + \\frac{b}{a}x = -\\frac{c}{a}\nx^2 + 2\\frac{b}{2a}x + \\(\\frac{b}{2a}\\)^2 = \\(\\frac{b}{2a}\\)^2 - \\frac{c}{a}\n\\(x + \\frac{b}{2a}\\)^2 = \\frac{b^2}{4a^2} - \\frac{4ac}{4a^2}\nx + \\frac{b}{2a} = \\frac{\\pm \\sqrt{b^2 - 4ac}}{2a}\nx = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}`,
     settings: {
         ml: true,
         la: true,
@@ -45,6 +45,14 @@ const examples = [
         ml: true,
         la: true,
         mode: "text"
+    }
+},
+{
+    latex: `% This is an example of some basic LaTeXmos replacements.\n% Create auto-resize brackets with \\( instead of \\left( and \\) instead of right. Also works for [] and {}.\n\\( \\frac{a}{b} \\) = \\[ \\frac{a}{b} \\] = \\{ \\frac{a}{b} \\}\n% Use \\implies and \\iff to draw arrows\n\\( a \\iff b \\) \\text{ and } \\( b \\iff c \\) \\implies \\( a \\iff c \\) \n% use \\dots to draw dots at the bottom and \cdots to draw dots in the middle.\n\\mathbb{Z} = \\{\\dots, -2, -1, 0, 1, 2, \\dots\\}\n100! = 100 \\times 99 \\times \\cdots \\times 2 \\times 1\n% use \\zwsp to draw zero width spaces. Useful for filling empty boxes in integrals and sums. Compare the following two:\n\\sum_{\\zwsp}^{\\zwsp} \\text{ vs. } \\sum`,
+    settings: {
+        ml: true,
+        la: true,
+        mode: "math"
     }
 }
 ]

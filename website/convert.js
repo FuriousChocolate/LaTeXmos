@@ -1,5 +1,23 @@
 
 const MAX_LINES = 50;
+const BASIC_REPLACEMENTS = {
+    "\\implies": "\\to",
+    "\\iff": "\\ _{\\overleftrightarrow{\\textcolor{transparent}{--}}}\\ ",
+    "\\mathbb": "\\mathbf",
+    "\\,": "\\ ",
+    "\\:": "\\ ",
+    "\\;": "\\ ",
+    "\\(": "\\left(",
+    "\\)": "\\right)",
+    "\\[": "\\left[",
+    "\\]": "\\right]",
+    "\\{": "\\left\\{",
+    "\\}": "\\right\\}",
+    "\\zwsp": "\u200B",
+    "\\dots": "...",
+    "\\cdots": "\\cdot\\cdot\\cdot",
+}
+
 // Converts a latex string into a desmos string.
 function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
     let lines = data.split("\n");
@@ -19,16 +37,11 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
             replaceMultiIntegrals(
                 replaceMatrices(
                     replaceLimits(
-                        replaceMathbb(
-                            replaceParentheses(
-                                replaceAlternativeSpacing(
-                                    replaceModes(
-                                        lines[line], DEFAULT_MODE
-                                    )
-                                )
+                        basicReplacements(
+                            replaceModes(
+                                lines[line], DEFAULT_MODE
                             )
                         )
-                        
                     )
                 )
             )
@@ -64,15 +77,11 @@ function convert(data, SINGLE_EXPRESSION_MULTILINE, LEFT_ALIGN, DEFAULT_MODE) {
                     replaceMultiIntegrals(
                         replaceMatrices(
                             replaceLimits(
-                                replaceMathbb(
-                                    replaceParentheses(
-                                        replaceAlternativeSpacing(
-                                            replaceModes(
-                                                old_lines[j], DEFAULT_MODE
-                                            )
-                                        )
+                                basicReplacements(
+                                    replaceModes(
+                                        old_lines[j], DEFAULT_MODE
                                     )
-                                )
+                                , false)
                             , false)
                         , false)
                     )
@@ -119,13 +128,6 @@ function groupLines(lines) {
     }
 }
 
-// In latex, space markers such as '\,'  '\:' and '\;' are used. Desmos doesn't support these, so this function replaces them with '\ '.
-function replaceAlternativeSpacing(line) {
-    line = line.replace(/\\,/g, "\\ ");
-    line = line.replace(/\\:/g, "\\ ");
-    line = line.replace(/\\;/g, "\\ ");
-    return line;
-}
 // Replaces all the \lim_{a \to b} in a line with my verson of a desmos displayable limit.
 function replaceLimits(line, invisibleBinom = true) {
     for (let i = 0; i < line.length; i++) {
@@ -213,6 +215,27 @@ function replaceMatrices(line, invisibleBinom = true) {
     return line;
 }
 
+function basicReplacements(line, visibleIFF = true) {
+    for (let [key, value] of Object.entries(BASIC_REPLACEMENTS)) {
+        if (key === "\\iff" && !visibleIFF) {
+            line = line.replaceAll(key, "\\ _{\\textcolor{transparent}{--}}\\ ");
+            continue;
+        }
+        line = line.replaceAll(key, value);
+    }
+    return line;
+}
+
+// Replaces \mathbb with \mathbf.
+function replaceMathbb(line) {
+    for (let i = 0; i < line.length; i++) {
+        if (line.slice(i, i + 7) === "\\mathbb") {
+            line = line.slice(0, i) + "\\mathbf" + line.slice(i + 7);
+        }
+    }
+    return line;
+}
+
 // Replaces all the \( and \) in a line with \left( and \right). Also replaces all the \[ and \] in a line with \left[ and \right] and all the \{ and \} in a line with \left\{ and \right\}.
 function replaceParentheses(line) {
     // Makes sure only to replace things like \( if they are not already preceeded by \left or \right.
@@ -239,13 +262,11 @@ function replaceParentheses(line) {
     return line;
 }
 
-// Replaces \mathbb with \mathbf.
-function replaceMathbb(line) {
-    for (let i = 0; i < line.length; i++) {
-        if (line.slice(i, i + 7) === "\\mathbb") {
-            line = line.slice(0, i) + "\\mathbf" + line.slice(i + 7);
-        }
-    }
+// In latex, space markers such as '\,'  '\:' and '\;' are used. Desmos doesn't support these, so this function replaces them with '\ '.
+function replaceAlternativeSpacing(line) {
+    line = line.replace(/\\,/g, "\\ ");
+    line = line.replace(/\\:/g, "\\ ");
+    line = line.replace(/\\;/g, "\\ ");
     return line;
 }
 
