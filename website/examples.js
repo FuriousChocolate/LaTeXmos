@@ -32,7 +32,7 @@ const examples = [
     }
 },
 {
-    latex: `% This is an example of switching between text and math mode. This example is meant to be run in the default math mode.\n\\text{ This is an example of text mode. }\n\\text{Inside text mode, you can also do $ 1 + \\frac{1}{2} $ to create inline math,} \n\\text{and vice versa. }`,
+    latex: `% This is an example of switching between text and math mode. This example is meant to be run in the default math mode.\n\\text{ This is an example of text mode. }\n\\text{Inside text mode, you can also do $ 1 + \\frac{1}{2} $} \n\\text{to create inline math, and vice versa. }`,
     settings: {
         ml: true,
         la: true,
@@ -40,7 +40,7 @@ const examples = [
     }
 },
 {
-    latex: `% This is an example of switching between text and math mode. This example is meant to be run with the text mode checkbox checked.\nStuff you type here will automatically be in text mode.\nIf you want to do math, you have to specify like so: $ \\sqrt{2} $.`,
+    latex: `% This is an example of switching between text and math mode. This example is meant to be run with the text mode checkbox checked.\n\n% Note that to display math in text node, $$ are required around the expression.\nHere is an example of a double integral:\n$\\iint_{a}^{b}f(x)dx$\nAnd this is a limit:\n$\\lim_{h \\to 0}\\(\\frac{f(x + h) - f(x)}{h}\\) = f'(x)$`,
     settings: {
         ml: true,
         la: true,
